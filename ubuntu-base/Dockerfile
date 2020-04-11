@@ -12,8 +12,25 @@ RUN apt-get update \
     libcups2 \
     libpulse0 \
     mesa-utils mesa-utils-extra vulkan-utils \
-    va-driver-all \
+    va-driver-all vdpauinfo \
     x11-apps x11-utils \
+    ansible \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+ARG NVIDIA_VERSION
+RUN add-apt-repository -y ppa:graphics-drivers/ppa \
+    && apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+    libnvidia-cfg1-$NVIDIA_VERSION \
+    libnvidia-compute-$NVIDIA_VERSION \
+    libnvidia-decode-$NVIDIA_VERSION \
+    libnvidia-encode-$NVIDIA_VERSION \
+    libnvidia-fbc1-$NVIDIA_VERSION \
+    libnvidia-gl-$NVIDIA_VERSION \
+    libnvidia-ifr1-$NVIDIA_VERSION \
+    nvidia-compute-utils-$NVIDIA_VERSION \
+    nvidia-utils-$NVIDIA_VERSION \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
