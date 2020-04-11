@@ -5,6 +5,7 @@ if [[ "$#" -ne 1 ]]; then
     exit 1
 fi
 
+# docker build --no-cache \
 docker build \
     --build-arg USER="$(id -un)" \
     --build-arg USER_ID="$(id -u)" \
