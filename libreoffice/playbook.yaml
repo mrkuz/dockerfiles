@@ -1,5 +1,5 @@
 ---
-- name: Install firefox
+- name: Install libreoffice
   gather_facts: no
   hosts: localhost
   connection: local
@@ -8,8 +8,9 @@
       become: yes
       apt:
         update_cache: yes
+        install_recommends: yes
         name:
-          - firefox
+          - libreoffice
 
     - name: Clean up (1)
       become: yes

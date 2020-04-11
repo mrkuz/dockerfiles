@@ -1,15 +1,19 @@
 ---
-- name: Install firefox
+- name: Install kodi
   gather_facts: no
   hosts: localhost
   connection: local
   tasks:
+    - name: Add repository
+      apt_repository:
+        repo: "ppa:team-xbmc/ppa"
+
     - name: Install packages
       become: yes
       apt:
         update_cache: yes
         name:
-          - firefox
+          - kodi
 
     - name: Clean up (1)
       become: yes

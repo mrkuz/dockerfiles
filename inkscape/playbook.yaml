@@ -1,5 +1,5 @@
 ---
-- name: Install firefox
+- name: Install inkscape
   gather_facts: no
   hosts: localhost
   connection: local
@@ -9,7 +9,7 @@
       apt:
         update_cache: yes
         name:
-          - firefox
+          - inkscape
 
     - name: Clean up (1)
       become: yes

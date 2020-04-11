@@ -7,14 +7,15 @@ RUN apt-get update \
 
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-    ca-certificates curl nano software-properties-common sudo unzip zip \
+    aptitude ca-certificates curl nano software-properties-common sudo unzip zip \
+    libcanberra-gtk-module libcanberra-gtk3-module \
     dbus dbus-x11 libnotify-bin \
     libcups2 \
     libpulse0 \
     mesa-utils mesa-utils-extra \
     va-driver-all vdpauinfo libxv1 \
     x11-apps x11-utils \
-    ansible \
+    ansible dirmngr gpg gpg-agent python3-distutils \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
