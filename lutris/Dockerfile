@@ -1,0 +1,4 @@
+FROM mrkuz/wine
+COPY playbook.yaml /tmp/playbook.yaml
+RUN ansible-playbook -i "localhost," /tmp/playbook.yaml
+ENTRYPOINT [ "/usr/games/lutris" ]

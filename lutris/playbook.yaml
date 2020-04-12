@@ -1,0 +1,31 @@
+---
+- name: Install lutris
+  gather_facts: no
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Create directories
+      file:
+        path: "/var/lib/apt/lists/"
+        state: directory
+        mode: 0755
+
+    - name: Add repository
+      apt_repository:
+        repo: "ppa:lutris-team/lutris"
+
+    - name: Install packages
+      apt:
+        update_cache: yes
+        name:
+          - lutris
+
+    - name: Clean up (1)
+      apt:
+        autoremove: yes
+        autoclean: yes
+
+    - name: Clean up (2)
+      file:
+        path: /var/lib/apt/lists/
+        state: absent
