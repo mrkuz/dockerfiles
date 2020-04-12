@@ -25,7 +25,6 @@
           - winehq-stable
 
     - name: Clean up (1)
-      become: yes
       apt:
         autoremove: yes
         autoclean: yes

@@ -1,5 +1,5 @@
 ---
-- name: Install inkscape
+- name: Install go
   gather_facts: no
   hosts: localhost
   connection: local
@@ -8,7 +8,7 @@
       apt:
         update_cache: yes
         name:
-          - inkscape
+          - golang-go
 
     - name: Clean up (1)
       apt:

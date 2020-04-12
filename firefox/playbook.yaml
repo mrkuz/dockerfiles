@@ -5,14 +5,12 @@
   connection: local
   tasks:
     - name: Install packages
-      become: yes
       apt:
         update_cache: yes
         name:
           - firefox
 
     - name: Clean up (1)
-      become: yes
       apt:
         autoremove: yes
         autoclean: yes
