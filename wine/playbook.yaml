@@ -1,0 +1,36 @@
+---
+- name: Install wine
+  gather_facts: yes
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Enable i386
+      command: dpkg --add-architecture i386
+      args:
+        creates: /var/lib/dpkg/arch
+
+    - name: Add repository keys
+      apt_key:
+        id: D43F640145369C51D786DDEA76F1A20FF987672F
+        url: https://dl.winehq.org/wine-builds/winehq.key
+
+    - name: Add repository
+      apt_repository:
+        repo: "deb https://dl.winehq.org/wine-builds/ubuntu/ {{ ansible_distribution_release }} main"
+
+    - name: Install packages
+      apt:
+        update_cache: yes
+        name:
+          - winehq-stable
+
+    - name: Clean up (1)
+      become: yes
+      apt:
+        autoremove: yes
+        autoclean: yes
+
+    - name: Clean up (2)
+      file:
+        path: /var/lib/apt/lists/
+        state: absent
