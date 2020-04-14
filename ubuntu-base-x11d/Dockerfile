@@ -39,4 +39,4 @@ RUN groupadd -g $GROUP_ID $GROUP \
     && echo "$USER ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 WORKDIR /home/$USER/
-ENTRYPOINT [ "/bin/bash" ]
+CMD [ "/bin/bash" ]
