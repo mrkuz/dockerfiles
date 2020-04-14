@@ -1,0 +1,2 @@
+path-exclude=/lib/systemd/system/*.wants/*
+path-exclude=/etc/systemd/system/*.wants/*

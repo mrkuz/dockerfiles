@@ -1,69 +1,40 @@
 FROM ubuntu:rolling
 
-RUN apt-get update \
-    && apt-get install -y apt-utils \
-    && apt-get clean \
+COPY no-docs /etc/dpkg/dpkg.cfg.d/no-docs
+COPY no-systemd-wants /etc/dpkg/dpkg.cfg.d/no-systemd-wants
+
+ENV DEBIAN_FRONTEND noninteractive
+ENV TERM xterm
+
+# Basics
+RUN apt-get update && apt-get install -y \
+    apt-utils \
+    locales \
+    tzdata \
+    && rm -rf /var/lib/apt/lists/* \
+    && locale-gen en_US.UTF-8
+
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US.UTF-8
+ENV LC_ALL en_US.UTF-8
+
+# Tools
+RUN apt-get update && apt-get install -y \
+    curl \
+    less \
+    nano \
+    sudo \
+    unzip \
+    zip \
     && rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update \
-    && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-    aptitude ca-certificates curl nano software-properties-common sudo unzip zip \
-    libcanberra-gtk-module libcanberra-gtk3-module \
-    dbus dbus-x11 libnotify-bin \
-    libcups2 \
-    libpulse0 \
-    mesa-utils mesa-utils-extra \
-    va-driver-all vdpauinfo libxv1 \
-    x11-apps x11-utils \
-    ansible dirmngr gpg gpg-agent python3-distutils \
-    && apt-get clean \
+# systemd
+RUN apt-get update && apt-get install -y \
+    systemd \
+    systemd-sysv \
+    && rm -fv /etc/systemd/system/*.wants/* \
     && rm -rf /var/lib/apt/lists/*
 
-ARG NVIDIA_VERSION
-RUN add-apt-repository -y ppa:graphics-drivers/ppa \
-    && apt-get update \
-    && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-#   libnvidia-cfg1-$NVIDIA_VERSION \
-#   libnvidia-compute-$NVIDIA_VERSION \
-    libnvidia-decode-$NVIDIA_VERSION \
-    libnvidia-encode-$NVIDIA_VERSION \
-#   libnvidia-fbc1-$NVIDIA_VERSION \
-#   libnvidia-gl-$NVIDIA_VERSION \
-#   libnvidia-ifr1-$NVIDIA_VERSION \
-#   nvidia-compute-utils-$NVIDIA_VERSION \
-#   nvidia-utils-$NVIDIA_VERSION \
-    vulkan-utils \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-COPY nvidia_icd.json /usr/share/vulkan/icd.d/nvidia_icd.json
-
-# COPY --from=nvidia/opengl \
-#   /usr/local/lib/x86_64-linux-gnu \
-#   /usr/local/lib/x86_64-linux-gnu
-# COPY --from=nvidia/opengl \
-#   /usr/local/lib/i386-linux-gnu \
-#   /usr/local/lib/i386-linux-gnu
-# COPY --from=nvidia/opengl \
-#   /usr/local/share/glvnd/egl_vendor.d/10_nvidia.json \
-#   /usr/local/share/glvnd/egl_vendor.d/10_nvidia.json
-# COPY --from=nvidia/opengl \
-#   /etc/ld.so.conf.d/glvnd.conf \
-#   /etc/ld.so.conf.d/glvnd.conf
-# RUN ldconfig
-
-ENV NVIDIA_VISIBLE_DEVICES all
-ENV NVIDIA_DRIVER_CAPABILITIES compute,graphics,utility
-
-ARG USER
-ARG USER_ID
-ARG GROUP
-ARG GROUP_ID
-
-RUN groupadd -g $GROUP_ID $GROUP \
-    && useradd -u $USER_ID -g $GROUP_ID -s /bin/bash -m $USER \
-    && echo "$USER ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
-
-COPY pulseaudio.client.conf /etc/pulse/client.conf
-
-WORKDIR /home/$USER/
-ENTRYPOINT [ "/bin/bash" ]
+STOPSIGNAL SIGRTMIN+3
+VOLUME [ "/sys/fs/cgroup" ]
+CMD [ "/lib/systemd/systemd" ]
