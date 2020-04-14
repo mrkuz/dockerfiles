@@ -1,4 +1,4 @@
-FROM mrkuz/ubuntu-base
+FROM mrkuz/ubuntu-base-x11d
 RUN curl -L https://dl.pstmn.io/download/latest/linux64 -o postman.tgz \
     && tar xzf postman.tgz -C /opt \
     && ln -s /opt/Postman/Postman /usr/local/bin/postman \
