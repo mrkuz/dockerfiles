@@ -1,8 +1,4 @@
 FROM mrkuz/ubuntu-base-x11d
-RUN curl -L https://download.teamviewer.com/download/linux/teamviewer_amd64.deb -o teamviewer.deb \
-    && apt-get update \
-    && DEBIAN_FRONTEND=noninteractive apt-get install -y ./teamviewer.deb \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* \
-    && rm teamviewer.deb
-ENTRYPOINT [ "/usr/bin/teamviewer" ]
+COPY playbook.yaml /tmp/playbook.yaml
+RUN ansible-playbook -i "localhost," /tmp/playbook.yaml
+CMD [ "/usr/bin/teamviewer" ]

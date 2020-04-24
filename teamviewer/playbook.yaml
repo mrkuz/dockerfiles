@@ -1,18 +1,13 @@
 ---
-- name: Install kodi
+- name: Install teamviewer
   gather_facts: no
   hosts: localhost
   connection: local
   tasks:
-    - name: Add repository
-      apt_repository:
-        repo: "ppa:team-xbmc/ppa"
-
     - name: Install packages
       apt:
         update_cache: yes
-        name:
-          - kodi
+        deb: https://download.teamviewer.com/download/linux/teamviewer_amd64.deb
 
     - name: Clean up
       shell: |

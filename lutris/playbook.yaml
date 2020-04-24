@@ -4,12 +4,6 @@
   hosts: localhost
   connection: local
   tasks:
-    - name: Create directories
-      file:
-        path: "/var/lib/apt/lists/"
-        state: directory
-        mode: 0755
-
     - name: Add repository
       apt_repository:
         repo: "ppa:lutris-team/lutris"
@@ -20,12 +14,9 @@
         name:
           - lutris
 
-    - name: Clean up (1)
-      apt:
-        autoremove: yes
-        autoclean: yes
-
-    - name: Clean up (2)
-      file:
-        path: /var/lib/apt/lists/
-        state: absent
+    - name: Clean up
+      shell: |
+        rm -fv /etc/systemd/system/*.wants/*
+        rm -rf /var/lib/apt/lists/*
+      args:
+        warn: false

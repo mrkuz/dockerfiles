@@ -1,4 +1,3 @@
-FROM mrkuz/ubuntu-base-x11d
+FROM mrkuz/ubuntu-base-cli
 COPY playbook.yaml /tmp/playbook.yaml
 RUN ansible-playbook -i "localhost," /tmp/playbook.yaml
-ENTRYPOINT [ "/usr/bin/bash" ]
