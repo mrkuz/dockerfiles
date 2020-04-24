@@ -1,4 +1,4 @@
-FROM ubuntu:focal
+FROM ubuntu:rolling
 
 COPY no-docs /etc/dpkg/dpkg.cfg.d/no-docs
 COPY no-systemd-wants /etc/dpkg/dpkg.cfg.d/no-systemd-wants
