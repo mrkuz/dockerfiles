@@ -1,4 +1,4 @@
-FROM mrkuz/ubuntu-base-ansible
+FROM mrkuz/ubuntu-base-cli
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     dbus dbus-x11 libnotify-bin \
@@ -29,14 +29,3 @@ RUN add-apt-repository -y ppa:graphics-drivers/ppa \
 COPY nvidia_icd.json /usr/share/vulkan/icd.d/nvidia_icd.json
 ENV NVIDIA_VISIBLE_DEVICES all
 ENV NVIDIA_DRIVER_CAPABILITIES compute,graphics,utility
-
-ARG USER
-ARG USER_ID
-ARG GROUP
-ARG GROUP_ID
-RUN groupadd -g $GROUP_ID $GROUP \
-    && useradd -u $USER_ID -g $GROUP_ID -G adm,sudo,video,plugdev,games -s /bin/bash -m $USER \
-    && echo "$USER ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
-
-WORKDIR /home/$USER/
-CMD [ "/bin/bash" ]
