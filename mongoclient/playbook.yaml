@@ -1,0 +1,17 @@
+---
+- name: Install mongoclient
+  gather_facts: no
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Install packages
+      apt:
+        update_cache: yes
+        name:
+          - mongodb-clients
+
+    - name: Clean up
+      shell: |
+        rm -rf /var/lib/apt/lists/*
+      args:
+        warn: false
