@@ -7,8 +7,9 @@ ENV DEBIAN_FRONTEND noninteractive
 ENV TERM xterm
 
 # Basics
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     apt-utils \
+    ca-certificates \
     locales \
     tzdata \
     && rm -rf /var/lib/apt/lists/* \
@@ -19,7 +20,7 @@ ENV LANGUAGE en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
 
 # Tools
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     less \
     nano \
@@ -29,7 +30,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # systemd
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     systemd \
     systemd-sysv \
     && rm -fv /etc/systemd/system/*.wants/* \
