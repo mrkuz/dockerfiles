@@ -20,6 +20,7 @@ ENV LC_ALL en_US.UTF-8
 
 # Tools
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    bash-completion \
     curl \
     less \
     nano \
