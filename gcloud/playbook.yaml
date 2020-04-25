@@ -1,0 +1,27 @@
+---
+- name: Install gcloud
+  gather_facts: no
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Add repository keys
+      apt_key:
+        id: 54A647F9048D5688D7DA2ABE6A030B21BA07F4FB
+        url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+
+    - name: Add repository
+      apt_repository:
+        repo: deb https://packages.cloud.google.com/apt cloud-sdk main
+
+    - name: Install packages
+      apt:
+        update_cache: yes
+        name:
+          - google-cloud-sdk
+
+    - name: Clean up
+      shell: |
+        rm -fv /etc/systemd/system/*.wants/*
+        rm -rf /var/lib/apt/lists/*
+      args:
+        warn: false

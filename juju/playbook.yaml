@@ -1,0 +1,22 @@
+---
+- name: Install juju
+  gather_facts: no
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Add repository
+      apt_repository:
+        repo: "ppa:juju/stable"
+
+    - name: Install packages
+      apt:
+        update_cache: yes
+        name:
+          - juju
+
+    - name: Clean up
+      shell: |
+        rm -fv /etc/systemd/system/*.wants/*
+        rm -rf /var/lib/apt/lists/*
+      args:
+        warn: false

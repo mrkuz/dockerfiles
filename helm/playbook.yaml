@@ -1,0 +1,32 @@
+---
+- name: Install helm
+  gather_facts: no
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Create temporary directory
+      file:
+        path: /tmp/helm
+        state: directory
+        mode: '0755'
+
+    - name: Download archive
+      unarchive:
+        src: https://get.helm.sh/helm-v3.1.2-linux-amd64.tar.gz
+        dest: /tmp/helm
+        remote_src: yes
+
+    - name: Copy binary
+      copy:
+        src: /tmp/helm/linux-amd64/helm
+        dest: /usr/local/bin/helm
+        remote_src: yes
+        mode: 755
+
+    - name: Clean up
+      shell: |
+        rm -fv /etc/systemd/system/*.wants/*
+        rm -rf /var/lib/apt/lists/*
+        rm -rf /tmp/helm
+      args:
+        warn: false
