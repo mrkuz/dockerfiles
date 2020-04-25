@@ -7,5 +7,4 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     gpg-agent \
     software-properties-common \
     python3-distutils \
-    && rm -fv /etc/systemd/system/*.wants/* \
     && rm -rf /var/lib/apt/lists/*

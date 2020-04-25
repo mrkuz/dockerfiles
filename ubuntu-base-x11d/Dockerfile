@@ -7,7 +7,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     mesa-utils mesa-va-drivers \
     vdpauinfo libxv1 \
     x11-utils \
-    && rm -fv /etc/systemd/system/*.wants/* \
     && rm -rf /var/lib/apt/lists/*
 COPY pulseaudio.client.conf /etc/pulse/client.conf
 
@@ -24,7 +23,6 @@ RUN add-apt-repository -y ppa:graphics-drivers/ppa \
 #   nvidia-compute-utils-$NVIDIA_VERSION \
 #   nvidia-utils-$NVIDIA_VERSION \
     vulkan-utils \
-    && rm -fv /etc/systemd/system/*.wants/* \
     && rm -rf /var/lib/apt/lists/*
 COPY nvidia_icd.json /usr/share/vulkan/icd.d/nvidia_icd.json
 ENV NVIDIA_VISIBLE_DEVICES all
