@@ -41,7 +41,6 @@
 
     - name: Clean up
       shell: |
-        rm -fv /etc/systemd/system/*.wants/*
         rm -rf /var/lib/apt/lists/*
         rm -rf /tmp/helm
       args:

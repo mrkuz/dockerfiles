@@ -15,7 +15,6 @@ RUN cd /opt/retropie \
     && chmod u+x retropie_setup.sh \
     && sudo ./retropie_packages.sh setup basic_install \
     && sudo chmod -R a+rw /opt/retropie/configs/ \
-    && sudo rm -fv /etc/systemd/system/*.wants/* \
     && sudo rm -rf /var/lib/apt/lists/*
 
 COPY start.sh /opt/retropie/start.sh
