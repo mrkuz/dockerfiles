@@ -1,0 +1,28 @@
+---
+- name: Install Java environment
+  gather_facts: no
+  hosts: localhost
+  connection: local
+  tasks:
+
+    - name: Install sdkman
+      shell: |
+        export SDKMAN_DIR="/opt/sdkman"
+        curl -s "https://get.sdkman.io" | bash
+        source "/opt/sdkman/bin/sdkman-init.sh"
+      args:
+        executable: /usr/bin/bash
+
+    - name: Install sdkman packages
+      shell: |
+        export SDKMAN_DIR="/opt/sdkman"
+        source "/opt/sdkman/bin/sdkman-init.sh"
+        sdk install {{ item }}
+      args:
+        executable: /usr/bin/bash
+      with_items:
+        - java
+        - maven
+        - groovy
+        - gradle
+        - visualvm

@@ -1,0 +1,28 @@
+---
+- name: Install Node environment
+  gather_facts: no
+  hosts: localhost
+  connection: local
+  tasks:
+
+    - name: Create directories
+      file:
+        path: "/opt/nvm"
+        state: directory
+        mode: 0755
+
+    - name: Install nvm
+      shell: |
+        export NVM_DIR="/opt/nvm"
+        curl -s https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+        source "/opt/nvm/nvm.sh"
+      args:
+        executable: /usr/bin/bash
+
+    - name: Install node
+      shell: |
+        export NVM_DIR="/opt/nvm"
+        source "/opt/nvm/nvm.sh"
+        nvm install node
+      args:
+        executable: /usr/bin/bash
