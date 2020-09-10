@@ -1,4 +1,22 @@
-FROM mrkuz/ubuntu-base
+FROM ubuntu:rolling
+
+ENV DEBIAN_FRONTEND noninteractive
+ENV TERM xterm
+
+# Basics
+RUN apt-get update \
+    && apt-get upgrade -y \
+    && apt-get install -y --no-install-recommends \
+    apt-utils \
+    ca-certificates \
+    locales \
+    tzdata \
+    && rm -rf /var/lib/apt/lists/* \
+    && locale-gen en_US.UTF-8
+
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US.UTF-8
+ENV LC_ALL en_US.UTF-8
 
 ARG USER
 ARG USER_ID
