@@ -22,7 +22,13 @@ ENV LC_ALL en_US.UTF-8
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
     bash-completion \
+    curl \
+    fzf \
+    git \
+    nano \
     sudo \
+    unzip \
+    zip \
     && rm -rf /var/lib/apt/lists/*
 
 ARG USER
