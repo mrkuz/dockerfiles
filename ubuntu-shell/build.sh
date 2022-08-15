@@ -6,6 +6,8 @@ if [[ "$#" -ne 1 ]]; then
 fi
 
 docker build \
+    --pull \
+    --no-cache \
     --build-arg USER="$(id -un)" \
     --build-arg USER_ID="$(id -u)" \
     --build-arg GROUP="$(id -gn)" \

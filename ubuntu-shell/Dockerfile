@@ -9,6 +9,7 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends \
     apt-utils \
     ca-certificates \
+    dialog \
     locales \
     tzdata \
     && rm -rf /var/lib/apt/lists/* \
@@ -36,7 +37,9 @@ ARG USER_ID
 ARG GROUP
 ARG GROUP_ID
 RUN groupadd -g $GROUP_ID $GROUP \
-    && useradd -u $USER_ID -g $GROUP_ID -G adm,sudo,video,plugdev,games -s /bin/bash -m $USER \
+    && useradd -u $USER_ID -g $GROUP_ID -G adm,sudo,audio,video,plugdev,games -s /bin/bash -m $USER \
+    && install -o $USER -g $GROUP -m 700 -d /run/user/$USER_ID \
+    && install -o $USER -g $GROUP -m 700 -d /run/user/$USER_ID/pulse \
     && echo "$USER ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 WORKDIR /home/$USER/
